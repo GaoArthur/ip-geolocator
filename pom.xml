@@ -50,7 +50,17 @@
 	</dependencies>
 	<build>
 		<plugins>
-
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.shared</groupId>
+						<artifactId>maven-dependency-analyzer</artifactId>
+						<version>1.11.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -144,11 +154,9 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.1.1</version>
 				<configuration>
-					<ignoredUnusedDeclaredDependencies>
-						<ignoredUnusedDeclaredDependency>
-							org.projectlombok:lombok
-						</ignoredUnusedDeclaredDependency>
-					</ignoredUnusedDeclaredDependencies>
+					<usedDependencies>
+						<usedDependency>org.projectlombok:lombok</usedDependency>
+					</usedDependencies>
 				</configuration>
 			</plugin>
 			<plugin>
