@@ -1,14 +1,15 @@
 package geolocator;
 
-import java.net.URL;
+import com.google.common.net.UrlEscapers;
+import com.google.gson.Gson;
+import com.sun.tools.javac.Main;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.net.URL;
 
-import com.google.gson.Gson;
-
-import com.google.common.net.UrlEscapers;
-
-import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for obtaining geolocation information about an IP address or host
@@ -16,6 +17,8 @@ import org.apache.commons.io.IOUtils;
  * service.
  */
 public class GeoLocator {
+
+    private static Logger logger = LoggerFactory.getLogger(GeoLocator.class);
 
     /**
      * URI of the geolocation service.
