@@ -40,7 +40,7 @@ public class GeoLocator {
      * @throws IOException if any I/O error occurs
      */
     public GeoLocation getGeoLocation() throws IOException {
-        logger.debug("getGeoLocation");
+        logger.info("getGeoLocation");
         return getGeoLocation(null);
     }
 
@@ -61,10 +61,12 @@ public class GeoLocator {
             url = new URL(GEOLOCATOR_SERVICE_URI + ipAddrOrHost);
             logger.info(GEOLOCATOR_SERVICE_URI);
         } else {
+            logger.warn(ipAddrOrHost);
             url = new URL(GEOLOCATOR_SERVICE_URI);
             logger.info(GEOLOCATOR_SERVICE_URI);
         }
         String s = IOUtils.toString(url, "UTF-8");
+        logger.info(s);
         return GSON.fromJson(s, GeoLocation.class);
     }
 
@@ -74,13 +76,11 @@ public class GeoLocator {
             String arg = args.length > 0 ? args[0] : null;
             logger.debug(arg);
             System.out.println(new GeoLocator().getGeoLocation(arg));
+            logger.info(arg);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             logger.error(e.getMessage());
         }
-        logger.debug("DEBUG");
-        logger.error("ERROR");
-        logger.warn("WARN");
     }
 
 }
