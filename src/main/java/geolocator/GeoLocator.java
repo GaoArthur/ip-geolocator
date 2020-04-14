@@ -57,16 +57,14 @@ public class GeoLocator {
         URL url;
         if (ipAddrOrHost != null) {
             ipAddrOrHost = UrlEscapers.urlPathSegmentEscaper().escape(ipAddrOrHost);
-            logger.debug(ipAddrOrHost);
             url = new URL(GEOLOCATOR_SERVICE_URI + ipAddrOrHost);
-            logger.info(GEOLOCATOR_SERVICE_URI);
+            logger.info("Connecting to {}",url);
         } else {
-            logger.warn(ipAddrOrHost);
             url = new URL(GEOLOCATOR_SERVICE_URI);
-            logger.info(GEOLOCATOR_SERVICE_URI);
+            logger.info("Connecting to {}",url);
         }
         String s = IOUtils.toString(url, "UTF-8");
-        logger.info(s);
+        logger.info("JSON response: {}", s);
         return GSON.fromJson(s, GeoLocation.class);
     }
 
@@ -74,9 +72,7 @@ public class GeoLocator {
     public static void main(String[] args) throws IOException {
         try {
             String arg = args.length > 0 ? args[0] : null;
-            logger.debug(arg);
             System.out.println(new GeoLocator().getGeoLocation(arg));
-            logger.info(arg);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             logger.error(e.getMessage());
