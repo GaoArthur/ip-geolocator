@@ -1,16 +1,13 @@
 package geolocator;
 
-import java.net.URL;
-
-import java.io.IOException;
-
-import com.google.gson.Gson;
-
 import com.google.common.net.UrlEscapers;
-
+import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Class for obtaining geolocation information about an IP address or host
@@ -54,29 +51,30 @@ public class GeoLocator {
      * @throws IOException if any I/O error occurs
      */
     public GeoLocation getGeoLocation(String ipAddrOrHost) throws IOException {
+        logger.trace("ipAddrOrHost: ", ipAddrOrHost);
         URL url;
         if (ipAddrOrHost != null) {
             ipAddrOrHost = UrlEscapers.urlPathSegmentEscaper().escape(ipAddrOrHost);
             url = new URL(GEOLOCATOR_SERVICE_URI + ipAddrOrHost);
-            logger.info("Connecting to {}",url);
+            logger.info("Querying geolocation information about {}", ipAddrOrHost);
         } else {
             url = new URL(GEOLOCATOR_SERVICE_URI);
-            logger.info("Connecting to {}",url);
+            logger.info("Querying geolocation information about the JVM");
         }
+        logger.info("Retrieving geolocation data from {}", url);
         String s = IOUtils.toString(url, "UTF-8");
-        logger.info("JSON response: {}", s);
+        logger.debug("JSON response: {}", s);
         return GSON.fromJson(s, GeoLocation.class);
     }
 
     // CHECKSTYLE:OFF
     public static void main(String[] args) throws IOException {
         try {
+            logger.trace("Command line arguments: {}", (Object) args);
             String arg = args.length > 0 ? args[0] : null;
-            System.out.println(new GeoLocator().getGeoLocation(arg));
+            logger.info("Geolocation: {}", new GeoLocator().getGeoLocation(arg));
         } catch (IOException e) {
-            System.err.println(e.getMessage());
-            logger.error(e.getMessage());
+            logger.error("Exception caught:", e);
         }
     }
-
 }
